@@ -1,61 +1,60 @@
-type Pizza = {
+type UserRole = "guest" | "member" | "admin"
+
+let userRole:UserRole = "guest"
+
+
+let myName = "Bob"
+const myName2 = 'Bob'
+
+
+type Food = string
+
+let favouriteFood: Food = "pizza"
+
+type Adress = {
+    street: string,
+    city: string,
+    country: string
+}
+
+type Person = {
     name: string,
-    price: number
+    age: number,
+    isStudent: boolean
+    address?: Adress
 }
 
-type Order = {
-    id: number,
-    pizza: Pizza,
-    status: string
 
-}
-
-const menu =  [
-    {name: "Margherita", price: 8},
-    {name: "Pepperoni", price: 10},
-    {name: "Hawaiian", price: 10},
-    {name: "Veggie", price: 9},
-]
-
-let cashInRegister = 100
-let nextOrderId = 1
-const orderQueque:Order[] = []
-
-function addNewPizza(pizzaObj:Pizza) {
-    menu.push(pizzaObj)
-}
-
-function placeOrder(pizzaName:string) {
-    const selectedPizza = menu.find(pizzaObj => pizzaObj.name === pizzaName)
-    if (!selectedPizza){
-        console.error(`${pizzaName} does not exist in the menu`)
-        return
+let person:Person = {
+    name: "Joe",
+    age: 42,
+    isStudent: true,
+    address: {
+        street: "123 Main",
+        city: "Anytown",
+        country: "USA"
     }
-    cashInRegister += selectedPizza.price
-    const newOrder:Order = {id: nextOrderId++, pizza: selectedPizza, status: "ordered"}
-    orderQueque.push(newOrder)
-    return newOrder
 }
 
-function completeOrder(orderId:number) {
-    const order = orderQueque.find(orderId => order.id === orderId)
-    if (!order) {
-        console.error(`${orderId} was not found in the orderQueue`)
-        return
+let person2:Person = {
+    name: "Jill",
+    age: 66,
+    isStudent: false,
+    address: {
+        street: "123 Main",
+        city: "Anytown",
+        country: "USA"
     }
-    order.status = "completed"
-    return order
 }
 
-addNewPizza({name: "Chicken Bacon Ranch", price: 12})
-addNewPizza({name: "BBQ Chicken", price: 12})
-addNewPizza({name: "Spicy Sausage", price: 11})
+let ages:number[] = [100,101]
 
-placeOrder("Chicken Bacon Ranch")
-completeOrder(1)
-
-console.log("Menu", menu)
-console.log("Cash", cashInRegister)
-console.log("Order queue", orderQueque)
+let people: Person[] = [person, person2]
 
 
+
+function displayInfo(person) {
+    console.log(`${person.name} lives at ${person.address.street}`)
+}
+
+displayInfo(person)
