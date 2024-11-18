@@ -3,6 +3,12 @@ type Pizza = {
     price: number
 }
 
+type Order = {
+    id: number,
+    pizza: Pizza,
+    status: string
+
+}
 
 const menu =  [
     {name: "Margherita", price: 8},
@@ -13,7 +19,7 @@ const menu =  [
 
 let cashInRegister = 100
 let nextOrderId = 1
-const orderQueque = []
+const orderQueque:Order[] = []
 
 function addNewPizza(pizzaObj:Pizza) {
     menu.push(pizzaObj)
@@ -26,13 +32,17 @@ function placeOrder(pizzaName:string) {
         return
     }
     cashInRegister += selectedPizza.price
-    const newOrder = {id: nextOrderId++, pizza: selectedPizza, status: "ordered"}
+    const newOrder:Order = {id: nextOrderId++, pizza: selectedPizza, status: "ordered"}
     orderQueque.push(newOrder)
     return newOrder
 }
 
 function completeOrder(orderId:number) {
     const order = orderQueque.find(orderId => order.id === orderId)
+    if (!order) {
+        console.error(`${orderId} was not found in the orderQueue`)
+        return
+    }
     order.status = "completed"
     return order
 }

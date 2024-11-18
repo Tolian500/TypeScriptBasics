@@ -38,6 +38,10 @@ let person2:Person = {
     }
 }
 
+let ages:number[] = [100,101]
+
+let people: Person[] = [person, person2]
+
 
 
 function displayInfo(person) {
