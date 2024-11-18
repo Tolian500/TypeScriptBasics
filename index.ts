@@ -1,4 +1,18 @@
+export function getPizzaDetail(identyfier: number | string):Pizza | undefined{
+    if (typeof identyfier === "string"){
+        return menu.find(pizza => pizza.name.toLocaleLowerCase() === identyfier)
+
+    } else if (typeof identyfier === 'number') {
+        return menu.find(pizza => pizza.id === identyfier)
+
+    } else {
+        throw new TypeError("Parameter 'identifier' must be either a string or a number")
+    }
+}
+
+
 type Pizza = {
+    id: number
     name: string,
     price: number
 }
@@ -11,22 +25,30 @@ type Order = {
     status: Status
 }
 
-const menu =  [
-    {name: "Margherita", price: 8},
-    {name: "Pepperoni", price: 10},
-    {name: "Hawaiian", price: 10},
-    {name: "Veggie", price: 9},
-]
+
 
 let cashInRegister = 100
 let nextOrderId = 1
+let nextPizzaId = 1
 const orderQueque:Order[] = []
 
-function addNewPizza(pizzaObj:Pizza) {
-    menu.push(pizzaObj)
+const menu:Pizza[] =  [
+    {id:nextPizzaId++, name: "Margherita", price: 8},
+    {id:nextPizzaId++, name: "Pepperoni", price: 10},
+    {id:nextPizzaId++, name: "Hawaiian", price: 10},
+    {id:nextPizzaId++, name: "Veggie", price: 9},
+]
+
+function addNewPizza(pizzaObj:Omit<Pizza, "id">):Pizza {
+    const newPizza: Pizza = {
+        id: nextPizzaId++,
+        ...pizzaObj
+    }
+    menu.push(newPizza)
+    return newPizza
 }
 
-function placeOrder(pizzaName:string) {
+function placeOrder(pizzaName:string): undefined | Order {
     const selectedPizza = menu.find(pizzaObj => pizzaObj.name === pizzaName)
     if (!selectedPizza){
         console.error(`${pizzaName} does not exist in the menu`)
@@ -38,7 +60,7 @@ function placeOrder(pizzaName:string) {
     return newOrder
 }
 
-function completeOrder(orderId:number) {
+function completeOrder(orderId:number): undefined | Order {
     const order = orderQueque.find(orderId => order.id === orderId)
     if (!order) {
         console.error(`${orderId} was not found in the orderQueue`)
@@ -50,7 +72,7 @@ function completeOrder(orderId:number) {
 
 addNewPizza({name: "Chicken Bacon Ranch", price: 12})
 addNewPizza({name: "BBQ Chicken", price: 12})
-addNewPizza({name: "Spicy Sausage", price: 11})
+addNewPizza({ame: "Spicy Sausage", price: 11})
 
 placeOrder("Chicken Bacon Ranch")
 completeOrder(1)
