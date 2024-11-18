@@ -60,6 +60,15 @@ function placeOrder(pizzaName:string): undefined | Order {
     return newOrder
 }
 
+function addToArray<T>(array: T[], item: T): T[] {
+    array.push(item)
+    return array
+}
+
+addToArray<Pizza>(menu, {id: nextPizzaId++, name: "Chicken Bacon Ranch", price: 12})
+addToArray<Order>(orderQueque, {id: nextOrderId++, pizza: menu[2], status: "completed"})
+
+
 function completeOrder(orderId:number): undefined | Order {
     const order = orderQueque.find(orderId => order.id === orderId)
     if (!order) {
